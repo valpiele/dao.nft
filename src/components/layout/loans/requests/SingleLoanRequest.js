@@ -119,11 +119,11 @@ class SingleLoanRequest extends Component {
                 </div>
                 <br/>
                 <div className="row left-align">
-                  <b>Lender </b>
+                  <b>Seller</b>
                   <EthAddress address={this.props.loanRequest.lender} />
                 </div>
                 <div className="row left-align">
-                  <b>Borrower </b>
+                  <b>Buyer</b>
                   <EthAddress address={this.props.loanRequest.borrower} />
                 </div>
                 <div className="row left-align">

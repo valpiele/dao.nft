@@ -4,23 +4,11 @@ import SingleLeaseOffer from './SingleLeaseOffer'
 import { LOADING_ASSET } from "../../../../assets/consts/assetsConsts"
 
 class AllLeaseOffers extends Component {
-
-  filterBorrower = (leaseOffer) => {
-     if (this.props.offersFilterBorrower === "") {
+  filterOwner = (leaseOffer) => {
+    if (this.props.filterOwner === "") {
       return true;
     }
-    return leaseOffer.borrower === this.props.offersFilterBorrower;
-  }
-
-  filterLender = (leaseOffer) => {
-    if (this.props.offersFilterLender === "") {
-      return true;
-    }
-    return leaseOffer.lender === this.props.offersFilterLender;
-  }
-
-  filterSelectedOptionStatus = (leaseOffer) => {
-    return leaseOffer.status === this.props.selectedOptionStatus;
+    return leaseOffer.lender === this.props.filterOwner;
   }
 
   getNFTAsset = (offer) => {
@@ -40,9 +28,7 @@ class AllLeaseOffers extends Component {
   }
 
   render() {
-    const filteredLeaseOffers = this.props.allLeaseOffers.filter(this.filterLender)
-                                                         .filter(this.filterBorrower)
-                                                         .filter(this.filterSelectedOptionStatus);
+    const filteredLeaseOffers = this.props.allLeaseOffers.filter(this.filterOwner)
 
     const filteredLeaseOffersComponents = filteredLeaseOffers.length ? (
       filteredLeaseOffers.map( (leaseOffer) =>

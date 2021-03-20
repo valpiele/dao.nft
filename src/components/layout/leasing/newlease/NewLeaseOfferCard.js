@@ -10,7 +10,6 @@ class NewLeaseOfferCard extends Component {
 
   // State will get be filled with changes to input components
   state = {
-      collateralAmount: '',
       leasePrice: '',
       leasePeriod: '31',
   }
@@ -35,7 +34,6 @@ class NewLeaseOfferCard extends Component {
       this.props.nft.asset_contract.address,
       this.props.nft.token_id,
       this.state.leasePeriod,
-      this.state.collateralAmount,
       this.state.leasePrice
     );
   }
@@ -44,7 +42,7 @@ class NewLeaseOfferCard extends Component {
     return (
       <div className="container">
         <h4 className="indigo-text text-darken-2 card-asset-content">
-          New Lease Offer with your NFT
+          Vote this NFT
         </h4>
         <div className="left-align">
           <p><b className="input-margins">NFT name</b></p> <p>{this.props.nft.name}</p>
@@ -58,26 +56,10 @@ class NewLeaseOfferCard extends Component {
           </div>
           <form>
             <div>
-              <b className="input-margins">Collateral Amount</b>
-              <div className="input-field">
-                <input id="collateral_amount" type="text" name="collateralAmount" onChange={this.handleChange} />
-                <label htmlFor="collateral_amount">Amount in ETH</label>
-              </div>
-            </div>
-            <div>
-              <b className="input-margins">Price to lease</b>
+              <b className="input-margins">Reserve price</b>
               <div className="input-field">
                 <input id="lease_price" type="text" name="leasePrice" onChange={this.handleChange} />
                 <label htmlFor="lease_price">Amount in ETH</label>
-              </div>
-            </div>
-            <div>
-              <b className="input-margins">Pick Lease Period: </b> {this.state.leasePeriod} days
-              <div id="connect">
-                <p className="range-field">
-                  <input type="range" name="leasePeriod" id="lease_period" min="1" max="31" onChange={this.handleChange} />
-                  <label htmlFor="lease_period">Max days for Leasing</label>
-                </p>
               </div>
             </div>
           </form>
