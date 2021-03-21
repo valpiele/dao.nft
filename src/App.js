@@ -7,6 +7,7 @@ import { ToastMessage } from "rimble-ui"
 import { getAccountAddressAction, getAccountAssetAction } from './store/actions/accountActions'
 import { getLeaseOffersAction, getLeaseAssetsAction } from './store/actions/leaseActions'
 import { getLoanRequestsAction, getLoanAssetsAction } from './store/actions/loanActions'
+import { getAllVotingProposalsAction, getAllVotingProposalsAssetsAction } from './store/actions/voteAndAuctionActions'
 
 import './assets/css/mystyles.css'
 import Navbar from './components/layout/navbar/Navbar'
@@ -20,8 +21,10 @@ import AllLoanRequestsPage from './components/layout/loans/requests/AllLoanReque
 
 import { LENDING_CONTRACT_ADDRESS } from "./assets/consts/requestsConsts"
 import { LEASING_CONTRACT_ADDRESS } from './assets/consts/offersConsts'
+import { VOTE_AND_AUCTION_CONTRACT_ADDRESS } from './assets/consts/offersConsts'
 import contractInterface from './contractsInterfaces/LoansNFT.json'
 import Web3 from 'web3'
+// import { getAllVotingProposalsAssetsAction } from './store/actions/voteAndAuctionActions'
 
 class App extends Component {
 
@@ -34,6 +37,7 @@ class App extends Component {
       this.props.getAccountAssetAction(this.props.userAddress);
       this.props.getLeaseOffersAction(this.props.userAddress);
       this.props.getLoanRequestsAction(this.props.userAddress);
+      this.props.getAllVotingProposalsAction(this.props.userAddress);
       this.subscribeToEvents();
     }
     if (prevProps.leaseOffers.length !== this.props.leaseOffers.length) {
@@ -42,6 +46,9 @@ class App extends Component {
     if (prevProps.loanRequests.length !== this.props.loanRequests.length) {
       this.props.getLoanAssetsAction(this.props.loanRequests);
     }
+    if (prevProps.proposals.length !== this.props.proposals.length) {
+      this.props.getAllVotingProposalsAssetsAction(this.props.proposals);
+    }
   }
 
   subscribeToEvents = () => {
@@ -49,6 +56,8 @@ class App extends Component {
       const web3 = new Web3(window.ethereum);
       const crtLending = new web3.eth.Contract(contractInterface, LENDING_CONTRACT_ADDRESS, {from: this.props.userAddress});
       const crtLeasing = new web3.eth.Contract(contractInterface, LEASING_CONTRACT_ADDRESS, {from: this.props.userAddress});
+      const crtVotingAndAuction = new web3.eth.Contract(contractInterface, VOTE_AND_AUCTION_CONTRACT_ADDRESS, {from: this.props.userAddress});
+
       crtLending.events.allEvents().on('data', (event) => {
         this.props.getAccountAssetAction(this.props.userAddress);
         this.props.getLoanRequestsAction(this.props.userAddress);
@@ -56,6 +65,10 @@ class App extends Component {
       crtLeasing.events.allEvents().on('data', (event) => {
         this.props.getAccountAssetAction(this.props.userAddress);
         this.props.getLeaseOffersAction(this.props.userAddress);
+      });
+      crtVotingAndAuction.events.allEvents().on('data', (event) => {
+        this.props.getAccountAssetAction(this.props.userAddress);
+        this.props.getAllVotingProposalsAction(this.props.userAddress);
       });
     }
   }
@@ -81,7 +94,8 @@ const mapStateToProps = (state) => {
   return {
     userAddress: state.account.accountAddress.address,
     leaseOffers: state.leasing.leaseOffers,
-    loanRequests: state.loans.loanRequests
+    loanRequests: state.loans.loanRequests,
+    proposals: state.proposalsAndAuctions.voteProposals
   }
 }
 
@@ -93,7 +107,9 @@ const mapDispatchToProps = (dispatch) => {
     getLeaseOffersAction: (address) => dispatch(getLeaseOffersAction(address)),
     getLeaseAssetsAction: (leaseOffers) => dispatch(getLeaseAssetsAction(leaseOffers)),
     getLoanRequestsAction: (address) => dispatch(getLoanRequestsAction(address)),
-    getLoanAssetsAction: (loanRequests) => dispatch(getLoanAssetsAction(loanRequests))
+    getLoanAssetsAction: (loanRequests) => dispatch(getLoanAssetsAction(loanRequests)),
+    getAllVotingProposalsAction: (address) => dispatch(getAllVotingProposalsAction(address)),
+    getAllVotingProposalsAssetsAction: (votingProposals) => dispatch(getAllVotingProposalsAssetsAction(votingProposals))
   }
 }
 

@@ -18,6 +18,7 @@ export const getAllVotingProposalsAction = () => {
 
 export const getAllVotingProposalsAssetsAction = (votingProposals) => {
     return (dispatch, getState) => {
+        console.log(votingProposals);
         getAllVotingProposalsAssets(votingProposals).then( proposalAssets => {
                 const updatedProposalAssets = proposalAssets.map(proposalAsset => proposalAsset.data)
                 dispatch({ type: 'ADD_PROPOSALS_ASSETS', proposalAssets: updatedProposalAssets });
