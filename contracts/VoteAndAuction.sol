@@ -35,9 +35,11 @@ contract VoteAndAuction is IERC721Receiver {
     
     mapping (address => uint) public VotesCounter;          
     
+    // TODO expose allVotingProposals length through getAllVotingProposalsLen()
     VotingProposal[] public allVotingProposals;
     VotingProposal[] public prevVotingProposals;
 
+    // TODO expose liveAuctions length through getLiveAuctionsLen()
     LiveAuction[] public liveAuctions;
     LiveAuction[] public prevAuctions;
 
