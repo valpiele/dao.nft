@@ -1,4 +1,4 @@
-import { getWeb3Account } from '../../services/web3/leaseNFTContract'
+import { getWeb3Account } from '../../services/web3/voteAndAuctionContract'
 import { getAssetsOpensea } from '../../services/opensea/assets'
 
 export const getAccountAddressAction = () => {

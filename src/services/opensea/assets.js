@@ -34,6 +34,20 @@ export const getAllLeaseAssets = async (leaseOffers) => {
   return leaseAssets;
 }
 
+export const getAllVotingProposalsAssets = async (votingProposals) => {
+  // TODO remove proposalAssets?
+  const proposalAssets = votingProposals.map( (singleProposal) =>
+    getAssetRequest(singleProposal.smartContractAddressOfNFT, singleProposal.tokenIdNFT)
+  );
+
+  return Promise.all(
+    votingProposals.map(
+      (singleProposal) => getAssetRequest(singleProposal.smartContractAddressOfNFT, singleProposal.tokenIdNFT)
+    )
+  )
+  return proposalAssets;
+}
+
 export const getAllLoanAssets = async (loanRequests) => {
   const loanAssets = loanRequests.map( (request) =>
     getAssetRequest(request.smartContractAddressOfNFT, request.tokenIdNFT)
